@@ -1,35 +1,3 @@
-# Sprint Challenge Instructions
-
-**Read these instructions carefully. Understand exactly what is expected _before_ starting this Sprint Challenge.**
-
-This challenge allows you to practice the concepts and techniques learned over the past sprint and apply them in a concrete project. This sprint explored **how to build web services based on the REST (REpresentational State Transfer) architectural style**. During this sprint, you studied **Node.js and Express, server side routing, how to write Express middleware and how to deploy an API to Heroku**.
-
-In your challenge this week, you will demonstrate your mastery of these skills by designing and creating a web API to manage the following resources: `Projects` and `Actions`.
-
-This is an individual assessment. All work must be your own. All projects will be submitted to Codegrade for automated review. You will also be given feedback by code reviewers the Monday after challenge submissions. For more information on the review process [click here](https://www.notion.so/lambdaschool/How-to-View-Feedback-in-CodeGrade-c5147cee220c4044a25de28bcb6bb54a).
-
-You are not allowed to collaborate during the sprint challenge.
-
-## Introduction
-
-In meeting the minimum viable product (MVP) specifications listed below, your project should provide an API that has Create, Read, Update and Delete (CRUD) functionality for both `projects` and `actions`.
-
-## Instructions
-
-### Task 1: Project Set Up
-
-- [ ] Fork and clone this repository. **If you are repeating this Course, delete your old fork from Github and re-fork and re-clone.**
-- [ ] Create a new branch: `git checkout -b <firstName-lastName>`.
-- [ ] Implement the project on your newly created branch, committing changes regularly.
-- [ ] Push commits: `git push origin <firstName-lastName>`.
-- [ ] **RUN** `npm install` to install your dependencies.
-
-### Task 2: CodeGrade Setup
-
-- [ ] Follow [instructions](https://www.notion.so/lambdaschool/Submitting-an-assignment-via-Code-Grade-A-Step-by-Step-Walkthrough-07bd65f5f8364e709ecb5064735ce374) to set up Codegrade's Webhook and Deploy Key, making sure your deployment is set to your `<firstName-lastName>` branch.
-- [ ] Make a commit and push it to Github.
-- [ ] Check to see that Codegrade has accepted your git submission.
-
 ### Task 3: Project Requirements (MVP)
 
 Your finished project must include all of the following requirements:
@@ -92,6 +60,56 @@ Inside `api/actions/actions-router.js` build endpoints for performing CRUD opera
 
 #### Middleware functions
 
+<pre>
+.
+├── ./README.md
+├── ./TREE.md
+├── ./api
+│   ├── ./api/actions
+│   │   ├── ./api/actions/actions-middleware.js
+│   │   ├──**./api/actions/actions-middlware.js**
+│   │   ├── ./api/actions/actions-model.js
+│   │   └── ./api/actions/actions-router.js
+│   ├── ./api/projects
+│   │   ├── **./api/projects/projects-middleware.js**
+│   │   ├── ./api/projects/projects-model.js
+│   │   └── ./api/projects/projects-router.js
+│   └── ./api/server.js
+├── ./codegrade_mvp.test.js
+├── ./data
+│   ├── ./data/dbConfig.js
+│   ├── ./data/helpers
+│   │   └── ./data/helpers/mappers.js
+│   ├── ./data/lambda.db3
+│   ├── ./data/migrations
+│   │   ├── ./data/migrations/20180405083150_projects.js
+│   │   └── ./data/migrations/20180405083157_actions.js
+│   └── ./data/seeds
+│       ├── ./data/seeds/00-cleanup.js
+│       ├── ./data/seeds/01-projects.js
+│       └── ./data/seeds/02-actions.js
+├── ./index.js
+├── ./jest.config.js
+├── ./knexfile.js
+├── ./notes
+│   ├── ./notes/2021-07-09-14-07-28.png
+│   ├── ./notes/2021-07-09-14-09-10.png
+│   ├── ./notes/2021-07-09-14-09-41.png
+│   ├── ./notes/2021-07-09-14-10-09.png
+│   ├── ./notes/2021-07-09-14-10-31.png
+│   ├── ./notes/commands.md
+│   ├── ./notes/notes.md
+│   └── ./notes/troubleshooting.md
+├── ./package-lock.json
+├── ./package.json
+├── ./readme-abridged.html
+└── ./readme-abridged.md
+
+8 directories, 34 files
+
+
+</pre>
+
 - [ ] Write at least two middleware functions for this API, and consume them in the proper places of your code.
 
 ### Database Schemas
@@ -151,13 +169,3 @@ We have provided test data for all the resources.
 - [ ] Check Codegrade for automated feedback.
 - [ ] Check Codegrade on Monday following the Sprint Challenge for reviewer feedback.
 - [ ] New commits will be evaluated by Codegrade if pushed _before_ the sprint challenge deadline.
-
-## Interview Questions
-
-Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
-
-1. The core features of Node.js and Express and why they are useful.
-1. Understand and explain the use of Middleware.
-1. The basic principles of the REST architectural style.
-1. Understand and explain the use of Express Routers.
-1. Describe tooling used to manually test the correctness of an API.
