@@ -13,9 +13,9 @@ function checkActionExists(req, res, next) {
   const { id } = req.params;
 
   db.get(id)
-    .then((resp) => {
-      if (resp === undefined || resp === null) {
-        res.status(404).json({ message: "that action id does not exist " });
+    .then((actions) => {
+      if (resp=== undefined || resp === null) {
+        res.status(404).json({ message: "the ID provided does not correspond with an action that exists in the database " });
       } else {
         req.action = resp;
         next();
@@ -23,7 +23,7 @@ function checkActionExists(req, res, next) {
     })
     .catch((err) => {
       res.status(500).json({
-        message: "Error retrieving record",
+        message: "Internal Server Error ",
         err: err,
       });
     });
@@ -34,8 +34,8 @@ function checkProjectExists(req, res, next) {
 
   dbp
     .get(project_id)
-    .then((resp) => {
-      if (resp === undefined || resp === null) {
+    .then((actions) => {
+      if (resp=== undefined || resp === null) {
         res.status(404).json({ message: "that action id does not exist " });
       } else {
         req.project = resp;
@@ -50,20 +50,19 @@ function checkProjectExists(req, res, next) {
     });
 }
 
-function validateAction(req, res, next) {
-  const neoAction = req.body;
-
-  if (!neoAction) {
-    res.status(400).json({ message: "no action object sent as JSON" });
-  } else if (!neoAction.notes) {
-    res.status(400).json({ message: "notes field is required " });
-  } else if (!neoAction.description) {
-    res.status(400).json({ message: "description field is required " });
-  } else if (!neoAction.project_id) {
-    res.status(400).json({ message: "project_id is required " });
-  } else {
-    next();
-  }
+// middleware to validate required notes and description fields for actions
+function validateAction (req, res, next) {
+    const { description, notes, project_id } = req.body
+    if (!notes || !notes.trim() || !description || !description.trim() || !project_id) {
+        res.status(400).json({
+            message: "missing required field (notes or description)"
+        })
+    } else {
+        req.notes = notes.trim()
+        req.description = description.trim()
+        req.project_id = project_id
+        next()
+    }
 }
 
 function validateActionCompleted(req, res, next) {

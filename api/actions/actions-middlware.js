@@ -15,8 +15,8 @@ function checkAction(req, res, next) {
   const { id } = req.params;
 
   db.get(id)
-    .then((resp) => {
-      if (resp === undefined || resp === null) {
+    .then((actions) => {
+      if (resp=== undefined || resp === null) {
         res
           .status(404)
           .json({
@@ -41,8 +41,8 @@ function checkProject(req, res, next) {
 
   dbp
     .get(project_id)
-    .then((resp) => {
-      if (resp === undefined || resp === null) {
+    .then((actions) => {
+      if (resp=== undefined || resp === null) {
         res.status(404).json({ message: "that action id does not exist " });
       } else {
         req.project = resp;
