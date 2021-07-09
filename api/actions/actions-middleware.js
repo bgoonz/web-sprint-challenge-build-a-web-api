@@ -28,7 +28,7 @@ function actionExists(req, res, next) {
         })
 }
 
-functionprojectExists(req, res, next) {
+function projectExists(req, res, next) {
     const { project_id } = req.params;
 
     dbp.get(project_id)

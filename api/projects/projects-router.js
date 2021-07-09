@@ -27,80 +27,99 @@ If there is no project with the given id it responds with a status code 404.
 
 */
 
-const express = require('express');
-const {projectExists, validateCompleted, validateProject } = require('./projects-middleware');
+const express = require("express");
+const {
+  projectExists,
+  validateCompleted,
+  validateProject,
+} = require("./projects-middleware");
 
-const projects = require('./projects-model');
-const actions = require('../actions/actions-model')
+const projects = require("./projects-model");
+const actions = require("../actions/actions-model");
 
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-    projects.get()
-     .then(resp => {
-         res.status(200).json(response);
-     }).catch(next)
-})
+  projects
+    .get()
+    .then((resp) => {
+      res.status(200).json(response);
+    })
+    .catch(next);
+});
 
-router.get("/:id",projectExists, (req, res, next) => {
-    const { id } = req.params;
+router.get("/:id", projectExists, (req, res, next) => {
+  const { id } = req.params;
 
-    projects.get(id)
+  projects
+    .get(id)
     .then((response) => {
-        res.status(200).json(response);
-    }).catch(next);
-})
+      res.status(200).json(response);
+    })
+    .catch(next);
+});
 
-router.get('/:id/actions',projectExists, (req, res, next) => {
-    const { id } = req.params;
+router.get("/:id/actions", projectExists, (req, res, next) => {
+  const { id } = req.params;
 
-    actions.getByProjectId(id)
-        .then((response) => {
-            res.status(200).json(response);
-        }).catch(next);
-})
+  actions
+    .getByProjectId(id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch(next);
+});
 
 router.post("/", validateProject, (req, res, next) => {
-    const neoProject = req.body;
+  const neoProject = req.body;
 
-    projects.insert(neoProject)
-        .then((response) => {
-            res.status(201).json(response);
-        }).catch(next);
-})
+  projects
+    .insert(neoProject)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch(next);
+});
 
-router.put("/:id", [projectExists, validateProject, validateCompleted], (req, res, next) => {
+router.put(
+  "/:id",
+  [projectExists, validateProject, validateCompleted],
+  (req, res, next) => {
     const { id } = req.params;
-    const updateThis = req.body
+    const updateThis = req.body;
 
     updateThis.id = id;
 
-    projects.update(id, updateThis)
-        .then(() => {
-            projects.get(id)
-                .then((response) => {
-                    res.status(201).json(response);
-                }).catch(next);
-        }).catch(next);
-})
+    projects
+      .update(id, updateThis)
+      .then(() => {
+        projects
+          .get(id)
+          .then((response) => {
+            res.status(201).json(response);
+          })
+          .catch(next);
+      })
+      .catch(next);
+  }
+);
 
-router.delete("/:id",projectExists, (req, res, next) => {
-    const { id } = req.params;
+router.delete("/:id", projectExists, (req, res, next) => {
+  const { id } = req.params;
 
-    projects.remove(id)
-        .then((response) => {
-            if (resp === -1) {
-                res
-                  .status(500)
-                  .json({
-                    message:
-                      " error http status 500 (Internal Server Errorerror)cannot delete requested project",
-                  });
-            } else {
-                res.status(200).json(response);
-            }
-        })
-        .catch(next);
-})
+  projects
+    .remove(id)
+    .then((response) => {
+      if (resp === -1) {
+        res.status(500).json({
+          message:
+            " error http status 500 (Internal Server Errorerror)cannot delete requested project",
+        });
+      } else {
+        res.status(200).json(response);
+      }
+    })
+    .catch(next);
+});
 
 module.exports = router;

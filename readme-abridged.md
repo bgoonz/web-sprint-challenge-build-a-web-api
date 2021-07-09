@@ -59,6 +59,7 @@ Inside `api/actions/actions-router.js` build endpoints for performing CRUD opera
   - If there is no action with the given `id` it responds with a status code 404.
 
 #### Middleware functions
+
 <pre>
 .
 ├── ./README.md
@@ -108,7 +109,6 @@ Inside `api/actions/actions-router.js` build endpoints for performing CRUD opera
 
 
 </pre>
-
 
 - [ ] Write at least two middleware functions for this API, and consume them in the proper places of your code.
 

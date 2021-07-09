@@ -20,56 +20,74 @@ Returns no response body.
 If there is no action with the given id it responds with a status code 404.
 */
 
+const express = require("express");
+const {
+  actionExists,
+  projectExists,
+  validateAction,
+  actionValidationComplete,
+} = require("./actions-middleware");
 
-const express = require('express');
-const { actionExists,projectExists, validateAction, actionValidationComplete } = require('./actions-middleware');
-
-const actions = require('./actions-model');
+const actions = require("./actions-model");
 
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-    actions.get()
-     .then(resp => {
-         res.status(200).json(response);
-     }).catch(next)
-})
+  actions
+    .get()
+    .then((resp) => {
+      res.status(200).json(response);
+    })
+    .catch(next);
+});
 
 router.get("/:id", actionExists, (req, res, next) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    actions.get(id)
-    .then(resp => {
-        res.status(200).json(response);
-    }).catch(next)
-})
+  actions
+    .get(id)
+    .then((resp) => {
+      res.status(200).json(response);
+    })
+    .catch(next);
+});
 
 router.post("/", [projectExists, validateAction], (req, res, next) => {
-    const neoAction = req.body
+  const neoAction = req.body;
 
-    actions.insert(neoAction)
-        .then((response) => {
-            res.status(201).json(response);
-        }).catch(next);
-})
+  actions
+    .insert(neoAction)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch(next);
+});
 
-router.put("/:id", [projectExists, validateAction, actionValidationComplete], (req, res, next) => {
+router.put(
+  "/:id",
+  [projectExists, validateAction, actionValidationComplete],
+  (req, res, next) => {
     const { id } = req.params;
-    const neoAction = req.body
+    const neoAction = req.body;
 
-    actions.update(id, neoAction)
-        .then((response) => {
-            res.status(201).json(response);
-        }).catch(next);
-})
+    actions
+      .update(id, neoAction)
+      .then((response) => {
+        res.status(201).json(response);
+      })
+      .catch(next);
+  }
+);
 
-router.delete('/:id', actionExists, (req, res, next) => {
-    const { id } = req.params;
+router.delete("/:id", actionExists, (req, res, next) => {
+  const { id } = req.params;
 
-    actions.remove(id)
-        .then((response) => {
-            res.status(201).json(response);
-        }).catch(next);
-})
+  actions
+    .remove(id)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch(next);
+});
 
 module.exports = router;
