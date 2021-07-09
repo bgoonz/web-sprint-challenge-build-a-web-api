@@ -1,76 +1,83 @@
-const db = require('./actions-model')
-const dbp = require('../projects/projects-model')
+const db = require("./actions-model");
+const dbp = require("../projects/projects-model");
 
 // add middlewares here related to actions
 module.exports = {
-   actionExists,
-    projectExists,
-    validateAction,
-    actionValidationComplete
+  checkActionExists,
+  checkProjectExists,
+  validateAction,
+  validateActionCompleted,
+};
+
+function checkActionExists(req, res, next) {
+  const { id } = req.params;
+
+  db.get(id)
+    .then((resp) => {
+      if (resp === undefined || resp === null) {
+        res.status(404).json({ message: "that action id does not exist " });
+      } else {
+        req.action = resp;
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "Error retrieving record",
+        err: err,
+      });
+    });
 }
 
-functionactionExists(req, res, next) {
-    const { id } = req.params;
+function checkProjectExists(req, res, next) {
+  const { project_id } = req.params;
 
-    db.get(id)
-        .then(resp => {
-            if (resp === undefined || resp === null) {
-                res.status(404).json({ message: "that action id does not exist "})
-            } else {
-                req.action = resp;
-                next();
-            }
-        }).catch(err => {
-            res.status(500).json({ 
-                message: "Error retrieving record",
-                err: err 
-            })
-        })
-}
-
-function projectExists(req, res, next) {
-    const { project_id } = req.params;
-
-    dbp.get(project_id)
-        .then(resp => {
-            if (resp === undefined || resp === null) {
-                res.status(404).json({ message: "that action id does not exist "})
-            } else {
-                req.project = resp;
-                next();
-            }
-        }).catch(err => {
-            res.status(500).json({ 
-                message: "Error retrieving record",
-                err: err 
-            })
-        })
+  dbp
+    .get(project_id)
+    .then((resp) => {
+      if (resp === undefined || resp === null) {
+        res.status(404).json({ message: "that action id does not exist " });
+      } else {
+        req.project = resp;
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "Error retrieving record",
+        err: err,
+      });
+    });
 }
 
 function validateAction(req, res, next) {
-    const neoAction = req.body;
+  const neoAction = req.body;
 
-    if (!neoAction) {
-        res.status(400).json({ message: "no action object sent as JSON" })
-    } else if (!neoAction.notes) {
-        res.status(400).json({ message: "notes field is required "});
-    } else if (!neoAction.description) {
-        res.status(400).json({ message: "description field is required "});
-    } else if (!neoAction.project_id) {
-        res.status(400).json({ message: "project_id is required "});
-    } else {
-        next();
-    }
+  if (!neoAction) {
+    res.status(400).json({ message: "no action object sent as JSON" });
+  } else if (!neoAction.notes) {
+    res.status(400).json({ message: "notes field is required " });
+  } else if (!neoAction.description) {
+    res.status(400).json({ message: "description field is required " });
+  } else if (!neoAction.project_id) {
+    res.status(400).json({ message: "project_id is required " });
+  } else {
+    next();
+  }
 }
 
-function actionValidationComplete(req, res, next) {
-    const neoAction = req.body;
+function validateActionCompleted(req, res, next) {
+  const neoAction = req.body;
 
-    if (!neoAction) {
-        res.status(400).json({ message: "no action object sent as JSON" })
-    } else if (!neoAction.completed) {
-        res.status(400).json({ message: "after initial creation, completed field is required "});
-    } else {
-        next();
-    }
+  if (!neoAction) {
+    res.status(400).json({ message: "no action object sent as JSON" });
+  } else if (!neoAction.completed) {
+    res
+      .status(400)
+      .json({
+        message: "after initial creation, completed field is required ",
+      });
+  } else {
+    next();
+  }
 }
