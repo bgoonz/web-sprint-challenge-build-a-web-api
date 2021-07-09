@@ -161,7 +161,3 @@ Be prepared to demonstrate your understanding of this week's concepts by answeri
 1. The basic principles of the REST architectural style.
 1. Understand and explain the use of Express Routers.
 1. Describe tooling used to manually test the correctness of an API.
-
-# All tests passing!
-
-![](./notes/2021-07-09-16-35-43.png)

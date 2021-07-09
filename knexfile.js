@@ -3,7 +3,7 @@ const commonConfig = {
   useNullAsDefault: true,
   pool: {
     afterCreate: (conn, done) => {
-      conn.run("PRAGMA foreign_keys = ON", done)
+      conn.run("PRAGMA foreign_keys = ON", done);
     },
   },
   migrations: {
@@ -12,7 +12,7 @@ const commonConfig = {
   seeds: {
     directory: "./data/seeds",
   },
-}
+};
 
 module.exports = {
   development: {
@@ -24,7 +24,7 @@ module.exports = {
   testing: {
     ...commonConfig,
     connection: {
-      filename: './data/test.db3',
+      filename: "./data/test.db3",
     },
-  }
-}
+  },
+};

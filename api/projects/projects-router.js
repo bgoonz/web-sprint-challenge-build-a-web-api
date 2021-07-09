@@ -1,38 +1,6 @@
 // Write your "projects" router here!
-
-/*
-/*
-Endpoints
-Inside api/projects/projects-router.js build the following endpoints:
-
- [GET] /api/projects
-Returns an array of projects as the body of the response.
-If there are no projects it responds with an empty array.
- [GET] /api/projects/:id
-Returns a project with the given id as the body of the response.
-If there is no project with the given id it responds with a status code 404.
- [POST] /api/projects
-Returns the newly created project as the body of the response.
-If the request body is missing any of the required fields it responds with a status code 400.
- [PUT] /api/projects/:id
-Returns the updated project as the body of the response.
-If there is no project with the given id it responds with a status code 404.
-If the request body is missing any of the required fields it responds with a status code 400.
- [DELETE] /api/projects/:id
-Returns no response body.
-If there is no project with the given id it responds with a status code 404.
- [GET] /api/projects/:id/actions
-Returns an array of actions (could be empty) belonging to a project with the given id.
-If there is no project with the given id it responds with a status code 404.
-
-*/
-
-
-
-
-
 const express = require('express');
-const { checkProjectExists, validateCompleted, validateProject } = require('./projects-middleware');
+const { projectExists, validateCompleted, validateProject } = require('./projects-middleware');
 
 const projects = require('./projects-model');
 const actions = require('../actions/actions-model')
@@ -46,8 +14,8 @@ router.get("/", (req, res, next) => {
      }).catch(next)
 })
 
-router.get("/:id", checkProjectExists, (req, res, next) => {
-    const { id } = req.parameters;
+router.get("/:id", projectExists, (req, res, next) => {
+    const { id } = req.params;
 
     projects.get(id)
     .then((resp) => {
@@ -55,8 +23,8 @@ router.get("/:id", checkProjectExists, (req, res, next) => {
     }).catch(next);
 })
 
-router.get('/:id/actions', checkProjectExists, (req, res, next) => {
-    const { id } = req.parameters;
+router.get('/:id/actions', projectExists, (req, res, next) => {
+    const { id } = req.params;
 
     actions.getByProjectId(id)
         .then((resp) => {
@@ -73,8 +41,8 @@ router.post("/", validateProject, (req, res, next) => {
         }).catch(next);
 })
 
-router.put("/:id", [checkProjectExists, validateProject, validateCompleted], (req, res, next) => {
-    const { id } = req.parameters;
+router.put("/:id", [projectExists, validateProject, validateCompleted], (req, res, next) => {
+    const { id } = req.params;
     const updateThis = req.body
 
     updateThis.id = id;
@@ -88,8 +56,8 @@ router.put("/:id", [checkProjectExists, validateProject, validateCompleted], (re
         }).catch(next);
 })
 
-router.delete("/:id", checkProjectExists, (req, res, next) => {
-    const { id } = req.parameters;
+router.delete("/:id", projectExists, (req, res, next) => {
+    const { id } = req.params;
 
     projects.remove(id)
         .then((resp) => {
