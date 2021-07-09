@@ -1,7 +1,7 @@
 const db = require('./projects-model')
 
 // add middlewares here related to projects
-const checkProjectExists = (req, res, next) => {
+const projectExists = (req, res, next) => {
     const { id } = req.params;
 
     db.get(id)
@@ -47,7 +47,7 @@ const validateCompleted = (req, res, next) => {
 }
 
 module.exports = {
-    checkProjectExists,
+    projectExists,
     validateCompleted,
     validateProject
 }

@@ -3,13 +3,13 @@ const dbp = require('../projects/projects-model')
 
 // add middlewares here related to actions
 module.exports = {
-    checkActionExists,
-    checkProjectExists,
+   actionExists,
+    projectExists,
     validateAction,
-    validateActionCompleted
+    actionValidationComplete
 }
 
-function checkActionExists(req, res, next) {
+functionactionExists(req, res, next) {
     const { id } = req.params;
 
     db.get(id)
@@ -28,7 +28,7 @@ function checkActionExists(req, res, next) {
         })
 }
 
-function checkProjectExists(req, res, next) {
+function projectExists(req, res, next) {
     const { project_id } = req.params;
 
     dbp.get(project_id)
@@ -63,7 +63,7 @@ function validateAction(req, res, next) {
     }
 }
 
-function validateActionCompleted(req, res, next) {
+function actionValidationComplete(req, res, next) {
     const neoAction = req.body;
 
     if (!neoAction) {

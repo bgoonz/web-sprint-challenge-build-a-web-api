@@ -1,6 +1,6 @@
 // Write your "projects" router here!
 const express = require('express');
-const { checkProjectExists, validateCompleted, validateProject } = require('./projects-middleware');
+const { projectExists, validateCompleted, validateProject } = require('./projects-middleware');
 
 const projects = require('./projects-model');
 const actions = require('../actions/actions-model')
@@ -14,7 +14,7 @@ router.get("/", (req, res, next) => {
      }).catch(next)
 })
 
-router.get("/:id", checkProjectExists, (req, res, next) => {
+router.get("/:id", projectExists, (req, res, next) => {
     const { id } = req.params;
 
     projects.get(id)
@@ -23,7 +23,7 @@ router.get("/:id", checkProjectExists, (req, res, next) => {
     }).catch(next);
 })
 
-router.get('/:id/actions', checkProjectExists, (req, res, next) => {
+router.get('/:id/actions', projectExists, (req, res, next) => {
     const { id } = req.params;
 
     actions.getByProjectId(id)
@@ -41,7 +41,7 @@ router.post("/", validateProject, (req, res, next) => {
         }).catch(next);
 })
 
-router.put("/:id", [checkProjectExists, validateProject, validateCompleted], (req, res, next) => {
+router.put("/:id", [projectExists, validateProject, validateCompleted], (req, res, next) => {
     const { id } = req.params;
     const updateThis = req.body
 
@@ -56,7 +56,7 @@ router.put("/:id", [checkProjectExists, validateProject, validateCompleted], (re
         }).catch(next);
 })
 
-router.delete("/:id", checkProjectExists, (req, res, next) => {
+router.delete("/:id", projectExists, (req, res, next) => {
     const { id } = req.params;
 
     projects.remove(id)

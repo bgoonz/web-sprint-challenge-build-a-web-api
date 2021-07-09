@@ -1,6 +1,6 @@
 // Write your "actions" router here!
 const express = require('express');
-const { checkActionExists, checkProjectExists, validateAction, validateActionCompleted } = require('./actions-middleware');
+const {actionExists, projectExists, validateAction, actionValidationComplete } = require('./actions-middleware');
 
 const actions = require('./actions-model');
 
@@ -13,7 +13,7 @@ router.get("/", (req, res, next) => {
      }).catch(next)
 })
 
-router.get("/:id", checkActionExists, (req, res, next) => {
+router.get("/:id",actionExists, (req, res, next) => {
     const { id } = req.params;
 
     actions.get(id)
@@ -22,7 +22,7 @@ router.get("/:id", checkActionExists, (req, res, next) => {
     }).catch(next)
 })
 
-router.post("/", [checkProjectExists, validateAction], (req, res, next) => {
+router.post("/", [projectExists, validateAction], (req, res, next) => {
     const neoAction = req.body
 
     actions.insert(neoAction)
@@ -31,7 +31,7 @@ router.post("/", [checkProjectExists, validateAction], (req, res, next) => {
         }).catch(next);
 })
 
-router.put("/:id", [checkProjectExists, validateAction, validateActionCompleted], (req, res, next) => {
+router.put("/:id", [projectExists, validateAction, actionValidationComplete], (req, res, next) => {
     const { id } = req.params;
     const neoAction = req.body
 
@@ -41,7 +41,7 @@ router.put("/:id", [checkProjectExists, validateAction, validateActionCompleted]
         }).catch(next);
 })
 
-router.delete('/:id', checkActionExists, (req, res, next) => {
+router.delete('/:id',actionExists, (req, res, next) => {
     const { id } = req.params;
 
     actions.remove(id)
