@@ -1,6 +1,6 @@
 // DO NOT MAKE CHANGES TO THIS FILE
-const db = require("../../data/dbConfig.js");
-const mappers = require("../../data/helpers/mappers");
+const db = require('../../data/dbConfig.js');
+const mappers = require('../../data/helpers/mappers');
 
 module.exports = {
   get,
@@ -11,11 +11,11 @@ module.exports = {
 };
 
 function get(id) {
-  let query = db("actions");
+  let query = db('actions');
 
   if (id) {
     return query
-      .where("id", id)
+      .where('id', id)
       .first()
       .then((action) => {
         if (action) {
@@ -32,26 +32,26 @@ function get(id) {
 }
 
 function getByProjectId(project_id) {
-  return db("actions")
-    .where({ project_id })
+  return db('actions')
+    .where({project_id})
     .then((actions) => {
       return actions.map((action) => mappers.actionToBody(action));
-    });
+    })
 }
 
 function insert(action) {
-  return db("actions")
+  return db('actions')
     .insert(action)
     .then(([id]) => get(id));
 }
 
 function update(id, changes) {
-  return db("actions")
-    .where("id", id)
+  return db('actions')
+    .where('id', id)
     .update(changes)
     .then((count) => (count > 0 ? get(id) : null));
 }
 
 function remove(id) {
-  return db("actions").where("id", id).del();
+  return db('actions').where('id', id).del();
 }
