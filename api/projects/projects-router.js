@@ -47,7 +47,7 @@ router.get("/", (req, res, next) => {
 })
 
 router.get("/:id", checkProjectExists, (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
 
     projects.get(id)
     .then((resp) => {
@@ -56,7 +56,7 @@ router.get("/:id", checkProjectExists, (req, res, next) => {
 })
 
 router.get('/:id/actions', checkProjectExists, (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
 
     actions.getByProjectId(id)
         .then((resp) => {
@@ -74,7 +74,7 @@ router.post("/", validateProject, (req, res, next) => {
 })
 
 router.put("/:id", [checkProjectExists, validateProject, validateCompleted], (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
     const updateThis = req.body
 
     updateThis.id = id;
@@ -89,7 +89,7 @@ router.put("/:id", [checkProjectExists, validateProject, validateCompleted], (re
 })
 
 router.delete("/:id", checkProjectExists, (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
 
     projects.remove(id)
         .then((resp) => {

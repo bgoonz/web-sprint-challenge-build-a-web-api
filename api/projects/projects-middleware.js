@@ -2,7 +2,7 @@ const db = require("./projects-model");
 
 // add middlewares here related to projects
 const checkProjectExists = (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.parameters;
 
   db.get(id)
     .then((resp) => {

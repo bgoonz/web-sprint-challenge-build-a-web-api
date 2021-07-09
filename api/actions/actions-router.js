@@ -36,7 +36,7 @@ router.get("/", (req, res, next) => {
 })
 
 router.get("/:id", checkActionExists, (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
 
     actions.get(id)
     .then(resp => {
@@ -54,7 +54,7 @@ router.post("/", [checkProjectExists, validateAction], (req, res, next) => {
 })
 
 router.put("/:id", [checkProjectExists, validateAction, validateActionCompleted], (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
     const neoAction = req.body
 
     actions.update(id, neoAction)
@@ -64,7 +64,7 @@ router.put("/:id", [checkProjectExists, validateAction, validateActionCompleted]
 })
 
 router.delete('/:id', checkActionExists, (req, res, next) => {
-    const { id } = req.params;
+    const { id } = req.parameters;
 
     actions.remove(id)
         .then((resp) => {

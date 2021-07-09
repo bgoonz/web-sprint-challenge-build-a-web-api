@@ -12,7 +12,7 @@ module.exports = {
 
 function checkAction(req, res, next) {
   //checking to see if action exists
-  const { id } = req.params;
+  const { id } = req.parameters;
 
   db.get(id)
     .then((actions) => {
@@ -37,7 +37,7 @@ function checkAction(req, res, next) {
 }
 
 function checkProject(req, res, next) {
-  const { project_id } = req.params;
+  const { project_id } = req.parameters;
 
   dbp
     .get(project_id)
