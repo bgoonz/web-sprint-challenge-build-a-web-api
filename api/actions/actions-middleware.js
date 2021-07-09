@@ -1,22 +1,21 @@
-// add middlewares here related to actions
 const db = require('./actions-model')
 const dbp = require('../projects/projects-model')
 
 // add middlewares here related to actions
 module.exports = {
-    checkAction,
-    checkProject,
+    actionExists,
+   projectExists,
     validateAction,
-    actionValidationCompleted
+    actionValidationComplete
 }
 
-function checkAction(req, res, next) {//checking to see if action exists
+function actionExists(req, res, next) {
     const { id } = req.params;
 
     db.get(id)
         .then(resp => {
             if (resp === undefined || resp === null) {
-                res.status(404).json({ message: "error the action specified by the user provided Id could not be found "})
+                res.status(404).json({ message: "that action id does not exist "})
             } else {
                 req.action = resp;
                 next();
@@ -29,7 +28,7 @@ function checkAction(req, res, next) {//checking to see if action exists
         })
 }
 
-function checkProject(req, res, next) {
+functionprojectExists(req, res, next) {
     const { project_id } = req.params;
 
     dbp.get(project_id)
@@ -64,14 +63,14 @@ function validateAction(req, res, next) {
     }
 }
 
-function actionValidationCompleted(req, res, next) {
+function actionValidationComplete(req, res, next) {
     const neoAction = req.body;
 
     if (!neoAction) {
-        res.status(400).json({ message: "error action object must be provided in JSON format" })
+        res.status(400).json({ message: "no action object sent as JSON" })
     } else if (!neoAction.completed) {
-        res.status(400).json({ message: "error please make sure that the completed field is provided a boolean argument"});
+        res.status(400).json({ message: "after initial creation, completed field is required "});
     } else {
-        next();//sucess
+        next();
     }
 }
